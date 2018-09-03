@@ -1,9 +1,12 @@
 import React from 'react'
 // import * as BooksAPI from './BooksAPI'
 import './App.css'
+import * as BooksAPI from './BooksAPI'
+import Bookshelf from './Bookshelf';
 
 class BooksApp extends React.Component {
   state = {
+    currentlyReading: [],
     /**
      * TODO: Instead of using this state variable to keep track of which page
      * we're on, use the URL in the browser's address bar. This will ensure that
@@ -11,6 +14,21 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false
+  }
+
+  componentDidMount() {
+    console.log('Retrieving books from server');
+    BooksAPI.getAll()
+      .then((library) => {
+        console.log('books', library);
+        const books = Object.keys(library).map( book => library[book]);
+
+        const booksInCurrentlyReadingShelf = books.filter(book => book.shelf === 'currentlyReading');
+        this.setState({currentlyReading: booksInCurrentlyReadingShelf});
+
+        console.log('Shelf currentlyReading:',booksInCurrentlyReadingShelf);
+
+      })
   }
 
   render() {
@@ -44,6 +62,7 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
+                <Bookshelf title='Currently Reading' books={this.state.currentlyReading}></Bookshelf>
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">Currently Reading</h2>
                   <div className="bookshelf-books">
