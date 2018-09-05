@@ -17,7 +17,32 @@ class BooksApp extends React.Component {
      */
     showSearchPage: false
   }
-  onShelfSelected = (shelf, book) => (console.log('Shelf', shelf, 'selected for book', book.title))
+  onShelfSelected = (shelf, book) => {
+    console.log('Shelf', shelf, 'selected for book', book.title);
+    BooksAPI.update(book,shelf)
+      .then((result) => {
+        console.log('Result ', result);
+
+        this.setState((currentState) => ({
+          currentlyReading: shelf === "currentlyReading" ? currentState.currentlyReading.concat([book]) 
+                                                         : book.shelf === "currentlyReading" 
+                                                         ? currentState.currentlyReading.filter(bookReading => (bookReading.id !== book.id))
+                                                         : currentState.currentlyReading,
+          wantToRead: shelf === "wantToRead"  ? currentState.wantToRead.concat([book]) 
+                                              : book.shelf === "wantToRead" 
+                                              ? currentState.wantToRead.filter(bookReading => (bookReading.id !== book.id))
+                                              : currentState.wantToRead,
+          read: shelf === "read"  ? currentState.read.concat([book])
+                                  : book.shelf === "read"
+                                  ? currentState.read.filter(bookReading => (bookReading.id !== book.id))
+                                  : currentState.read
+        }))
+
+        /*
+        
+        */
+      })
+  }
 
   componentDidMount() {
     console.log('Retrieving books from server');
