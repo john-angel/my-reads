@@ -18,21 +18,22 @@ class BooksApp extends React.Component {
     showSearchPage: false
   }
   onShelfSelected = (shelf, book) => {
-    console.log('Shelf', shelf, 'selected for book', book.title);
     BooksAPI.update(book,shelf)
       .then((result) => {
-        console.log('Result ', result);
+
+        let newBook = Object.assign({},book);
+        newBook.shelf = shelf;
 
         this.setState((currentState) => ({
-          currentlyReading: shelf === "currentlyReading" ? currentState.currentlyReading.concat([book]) 
+          currentlyReading: shelf === "currentlyReading" ? currentState.currentlyReading.concat([newBook]) 
                                                          : book.shelf === "currentlyReading" 
                                                          ? currentState.currentlyReading.filter(bookReading => (bookReading.id !== book.id))
                                                          : currentState.currentlyReading,
-          wantToRead: shelf === "wantToRead"  ? currentState.wantToRead.concat([book]) 
+          wantToRead: shelf === "wantToRead"  ? currentState.wantToRead.concat([newBook]) 
                                               : book.shelf === "wantToRead" 
                                               ? currentState.wantToRead.filter(bookReading => (bookReading.id !== book.id))
                                               : currentState.wantToRead,
-          read: shelf === "read"  ? currentState.read.concat([book])
+          read: shelf === "read"  ? currentState.read.concat([newBook])
                                   : book.shelf === "read"
                                   ? currentState.read.filter(bookReading => (bookReading.id !== book.id))
                                   : currentState.read
@@ -45,10 +46,9 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
-    console.log('Retrieving books from server');
     BooksAPI.getAll()
       .then((library) => {
-        console.log('books', library);
+        //console.log('books', library);
         const books = Object.keys(library).map(book => library[book]);
 
         const booksInCurrentlyReadingShelf = books.filter(book => book.shelf === 'currentlyReading');

@@ -8,7 +8,6 @@ class Bookshelf extends Component {
 
 
     render(){
-        console.log('Books in', this.props.title, 'bookshelf: ', this.props.books);
         return(
             <div className="bookshelf">
                 <h2 className="bookshelf-title">{this.props.title}</h2>
