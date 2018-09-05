@@ -17,13 +17,14 @@ class BooksApp extends React.Component {
      */
     showSearchPage: false
   }
+  onShelfSelected = (shelf, book) => (console.log('Shelf', shelf, 'selected for book', book.title))
 
   componentDidMount() {
     console.log('Retrieving books from server');
     BooksAPI.getAll()
       .then((library) => {
         console.log('books', library);
-        const books = Object.keys(library).map( book => library[book]);
+        const books = Object.keys(library).map(book => library[book]);
 
         const booksInCurrentlyReadingShelf = books.filter(book => book.shelf === 'currentlyReading');
         const booksInWantToReadShelf = books.filter(book => book.shelf === 'wantToRead');
@@ -56,7 +57,7 @@ class BooksApp extends React.Component {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-                <input type="text" placeholder="Search by title or author"/>
+                <input type="text" placeholder="Search by title or author" />
 
               </div>
             </div>
@@ -65,22 +66,22 @@ class BooksApp extends React.Component {
             </div>
           </div>
         ) : (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
-            </div>
-            <div className="list-books-content">
+            <div className="list-books">
+              <div className="list-books-title">
+                <h1>MyReads</h1>
+              </div>
+              <div className="list-books-content">
                 <div>
-                  <Bookshelf title='Currently Reading' books={this.state.currentlyReading}></Bookshelf>
-                  <Bookshelf title='Want to Read' books={this.state.wantToRead}></Bookshelf>
-                  <Bookshelf title='Read' books={this.state.read}></Bookshelf>
+                  <Bookshelf title='Currently Reading' books={this.state.currentlyReading} shelfSelected={this.onShelfSelected}></Bookshelf>
+                  <Bookshelf title='Want to Read' books={this.state.wantToRead} shelfSelected={this.onShelfSelected}></Bookshelf>
+                  <Bookshelf title='Read' books={this.state.read} shelfSelected={this.onShelfSelected}></Bookshelf>
                 </div>
+              </div>
+              <div className="open-search">
+                <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
+              </div>
             </div>
-            <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
-            </div>
-          </div>
-        )}
+          )}
       </div>
     )
   }
