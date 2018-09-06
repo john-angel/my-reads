@@ -5,8 +5,7 @@ class Bookshelf extends Component {
 
            
     onShelfSelected = (shelf,book) => (this.props.shelfSelected(shelf,book))
-
-
+    
     render(){
         return(
             <div className="bookshelf">
