@@ -23,7 +23,6 @@ class ListBooks extends Component {
                     <Link to='/search'>
                         Search a book
                     </Link>
-                    {/*<a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>*/}
                 </div>
             </div>
         )
