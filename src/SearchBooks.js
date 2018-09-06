@@ -56,11 +56,11 @@ class SearchBooks extends Component {
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
-                    {/*
+                    {
                         this.state.books.map(book => (
                             <Book book={book} key={book.id} shelfSelected={this.onShelfSelected}></Book>
                         ))
-                    */}
+                    }
                     </ol>
                 </div>
             </div>
