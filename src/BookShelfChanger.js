@@ -2,12 +2,22 @@ import React, {Component} from 'react'
 
 class BookShelfChanger extends Component {
 
-    onShelfSelected = (event) => (this.props.shelfSelected(event.target.value))
-    //TODO: The value of select has to be managed through state. https://reactjs.org/docs/forms.html    
+    state = {
+        shelf: ''
+    }
+     
+    componentDidMount() {
+        this.setState({shelf: this.props.shelf ? this.props.shelf : "none"})
+    }
+
+    onShelfSelected = (event) => {
+        this.setState({shelf: event.target.value});
+        this.props.shelfSelected(event.target.value)
+    }
     render(){
         return(
             <div className="book-shelf-changer">
-                <select value={this.props.shelf ? this.props.shelf : "none"} onChange={this.onShelfSelected}>
+                <select value={this.state.shelf} onChange={this.onShelfSelected}>
                     <option value="move" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>                                                              
                     <option value="wantToRead">Want to Read</option>

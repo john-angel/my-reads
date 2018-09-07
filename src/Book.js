@@ -5,7 +5,7 @@ class Book extends Component {
 
     onShelfSelected = (shelf) => (this.props.shelfSelected(shelf,this.props.book))
     render(){
-        console.log('Rendering book ', this.props.book.title, ' from shelf' , this.props.book.shelf ? this.props.book.shelf : 'None');
+        //console.log('Rendering book ', this.props.book.title, ' from shelf' , this.props.book.shelf ? this.props.book.shelf : 'None');
         return(
             <li>
                 <div className="book">

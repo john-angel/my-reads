@@ -5,8 +5,8 @@ import Book from './Book'
 
 class SearchBooks extends Component {
 
-    state = { books: []}   
-
+    state = { books: []}  
+  
     onShelfSelected = (shelf,book) => (this.props.shelfSelected(shelf,book))
   
     queryUpdated (event) {
