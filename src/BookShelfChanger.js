@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 class BookShelfChanger extends Component {
 
     onShelfSelected = (event) => (this.props.shelfSelected(event.target.value))
-        
+    //TODO: The value of select has to be managed through state. https://reactjs.org/docs/forms.html    
     render(){
         return(
             <div className="book-shelf-changer">

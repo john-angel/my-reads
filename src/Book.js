@@ -14,7 +14,7 @@ class Book extends Component {
                         <BookShelfChanger shelf={this.props.book.shelf} shelfSelected={this.onShelfSelected}></BookShelfChanger>
                     </div>
                     <div className="book-title">{this.props.book.title}</div>
-                    {/*TODO Iterate over the authors array*/}
+                    {/*TODO: Iterate over the authors array*/}
                     <div className="book-authors">{this.props.book.authors? this.props.book.authors[0]: ""}</div>
                 </div>
             </li>

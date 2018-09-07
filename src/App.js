@@ -11,6 +11,8 @@ class BooksApp extends React.Component {
     wantToRead: [],
     read: []
   }
+
+  //TODO: Fix To-do defined in project
   onShelfSelected = (shelf, book) => {
     BooksAPI.update(book,shelf)
       .then((result) => {
@@ -67,6 +69,7 @@ class BooksApp extends React.Component {
         )}
         >
         </Route>
+        {/* TODO: Should we pass a parameter to render as it's defined in Contacts app?*/}
         <Route exact path='/search' render={() => (
           <SearchBooks  currentlyReading={this.state.currentlyReading} 
                         wantToRead={this.state.wantToRead} 
