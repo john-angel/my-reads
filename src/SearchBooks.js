@@ -6,9 +6,11 @@ import Book from './Book'
 class SearchBooks extends Component {
 
     state = { books: []}   
-    
-    queryUpdated (event) {
 
+    onShelfSelected = (shelf,book) => (this.props.shelfSelected(shelf,book))
+  
+    queryUpdated (event) {
+        
         if (event.target.value !== "") {
             let booksFoundCurrentlyReading = this.props.currentlyReading.filter((book) => (
                 book.title.toLowerCase().includes(event.target.value.toLowerCase())
@@ -22,19 +24,25 @@ class SearchBooks extends Component {
                 book.title.toLowerCase().includes(event.target.value.toLowerCase())
             ))
 
-            let booksFound = booksFoundCurrentlyReading.concat(booksFoundWantToRead.concat(booksFoundRead));
+            let booksFoundInShelves = booksFoundCurrentlyReading.concat(booksFoundWantToRead.concat(booksFoundRead));
 
-            console.log("Books found in shelves: ", booksFound),
+            console.log("Books found in shelves: ", booksFoundInShelves);
 
             BooksAPI.search(event.target.value)
-                .then((result) => {
-                    this.setState({ books: result.length > 0 ? booksFound.concat(result) : booksFound})
+                .then((apiResult) => {
+                    
+                    const booksFromApi = apiResult.length > 0 ? (
+                        console.log("Books found through API: ", apiResult),                  
+                        apiResult.filter( bookFromApi => booksFoundInShelves.every( bookInShelf => bookFromApi.id !== bookInShelf.id))                        
+                    ) : [];
+
+                    this.setState({ books:  booksFoundInShelves.concat(booksFromApi)})
+
                 })
         }
     }
 
     render(){
-        console.log('Books in state', this.state.books);
         return (
             <div className="search-books">
                 <div className="search-books-bar">

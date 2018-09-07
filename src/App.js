@@ -39,24 +39,17 @@ class BooksApp extends React.Component {
     BooksAPI.getAll()
       .then((library) => {
         const books = Object.keys(library).map(book => library[book]);
-        console.log('All Books', books);
-
+        console.log('Books in shelves:', books);
 
         const booksInCurrentlyReadingShelf = books.filter(book => book.shelf === 'currentlyReading');
         const booksInWantToReadShelf = books.filter(book => book.shelf === 'wantToRead');
         const booksInReadShelf = books.filter(book => book.shelf === 'read');
-
-        const booksInNoneShelf = books.filter(book => book.shelf === 'none');
-        console.log('Books with no shelf ', booksInNoneShelf);
-
 
         this.setState({
           currentlyReading: booksInCurrentlyReadingShelf,
           wantToRead: booksInWantToReadShelf,
           read: booksInReadShelf
         });
-
-
       })
   }
 
@@ -78,6 +71,7 @@ class BooksApp extends React.Component {
           <SearchBooks  currentlyReading={this.state.currentlyReading} 
                         wantToRead={this.state.wantToRead} 
                         read={this.state.read} 
+                        shelfSelected={this.onShelfSelected}
           >
           </SearchBooks>
         )}
