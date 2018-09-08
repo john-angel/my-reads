@@ -12,7 +12,7 @@ class BooksApp extends React.Component {
     read: []
   }
 
-  //TODO: Fix To-do defined in project
+ 
   onShelfSelected = (shelf, book) => {
     BooksAPI.update(book,shelf)
       .then((result) => {
