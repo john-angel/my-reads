@@ -69,7 +69,6 @@ class BooksApp extends React.Component {
         )}
         >
         </Route>
-        {/* TODO: Should we pass a parameter to render as it's defined in Contacts app?*/}
         <Route exact path='/search' render={() => (
           <SearchBooks  currentlyReading={this.state.currentlyReading} 
                         wantToRead={this.state.wantToRead} 

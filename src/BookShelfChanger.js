@@ -1,11 +1,12 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types';
 
 class BookShelfChanger extends Component {
 
     state = {
         shelf: ''
     }
-     
+
     componentDidMount() {
         this.setState({shelf: this.props.shelf ? this.props.shelf : "none"})
     }
@@ -28,5 +29,9 @@ class BookShelfChanger extends Component {
         )
     }
 }
+
+BookShelfChanger.propTypes = {
+    shelf: PropTypes.string
+  };
 
 export default BookShelfChanger
