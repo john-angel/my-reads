@@ -1,45 +1,56 @@
 import React, {Component} from 'react'
+import debounce from "lodash.debounce";
 import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import Book from './Book'
 
 class SearchBooks extends Component {
 
-    state = { books: []}  
+    constructor(props) {
+        super(props);
+        this.state = { books: [] };
+        this.emitChangeDebounce = debounce(this.queryUpdated, 1000);
+    }
+
+    handleChange(e) {
+        this.emitChangeDebounce(e.target.value);
+    }
+    
   
     onShelfSelected = (shelf,book) => (this.props.shelfSelected(shelf,book))
   
-    queryUpdated (event) {
-        
-        if (event.target.value !== "") {
+    queryUpdated (value) {
+
+        if (value !== "") {
             let booksFoundCurrentlyReading = this.props.currentlyReading.filter((book) => (
-                book.title.toLowerCase().includes(event.target.value.toLowerCase())
+                book.title.toLowerCase().includes(value.toLowerCase())
             ))
 
             let booksFoundWantToRead = this.props.wantToRead.filter((book) => (
-                book.title.toLowerCase().includes(event.target.value.toLowerCase())
+                book.title.toLowerCase().includes(value.toLowerCase())
             ))
 
             let booksFoundRead = this.props.read.filter((book) => (
-                book.title.toLowerCase().includes(event.target.value.toLowerCase())
+                book.title.toLowerCase().includes(value.toLowerCase())
             ))
 
             let booksFoundInShelves = booksFoundCurrentlyReading.concat(booksFoundWantToRead.concat(booksFoundRead));
 
             console.log("Books found in shelves: ", booksFoundInShelves);
 
-            BooksAPI.search(event.target.value)
+            BooksAPI.search(value)
                 .then((apiResult) => {
                     
                     const booksFromApi = apiResult.length > 0 ? (
                         console.log("Books found through API: ", apiResult),                  
                         apiResult.filter( bookFromApi => booksFoundInShelves.every( bookInShelf => bookFromApi.id !== bookInShelf.id))                        
                     ) : [];
-
-                    this.setState({ books:  booksFoundInShelves.concat(booksFromApi)})
-
+                    this.setState({books : booksFoundInShelves.concat(booksFromApi)})
                 })
+        }else{
+            this.setState({books: []})
         }
+
     }
 
     render(){
@@ -58,7 +69,7 @@ class SearchBooks extends Component {
                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                  you don't find a specific author or title. Every search is limited by search terms.
                */}
-                        <input type="text" placeholder="Search by title or author" onChange={this.queryUpdated.bind(this)}
+                        <input type="text" placeholder="Search by title or author" onChange={this.handleChange.bind(this)}
 />
                     </div>
                 </div>
